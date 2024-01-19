@@ -3,17 +3,16 @@ import {TodoCreate} from "./components/TodoCreate.jsx";
 import {TodoList} from "./components/TodoList.jsx";
 import {TodoComputed} from "./components/TodoComputed.jsx";
 import {TodoFilter} from "./components/TodoFilter.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-const initialStateTodos = [
-    {id: 1, title: "First step", completed: true},
-    {id: 2, title: "Second step", completed: false},
-    {id: 3, title: "Third step", completed: true},
-    {id: 4, title: "Fourth step", completed: false}
-]
+const initialStateTodos = JSON.parse(localStorage.getItem('todos')) || []
 
 const App = () => {
     const [todos, setTodos] = useState(initialStateTodos)
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos))
+    }, [todos]);
 
     const createTodo = (title) => {
         const newTodo = {
@@ -54,19 +53,19 @@ const App = () => {
                 return todos
         }
     }
-
     return (
-        <div className={"bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain bg-gray-100 min-h-screen"}>
+        <div className={"bg-[url('./assets/images/bg-mobile-light.jpg')] bg-no-repeat bg-contain bg-gray-100 min-h-screen dark:bg-gray-900 dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] transition-all duration-1000 md:bg-[url('./assets/images/bg-desktop-light.jpg')] md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')]"}>
             <Header />
-            <main className={"container mx-auto px-4 mt-8"}>
+            <main className={"container mx-auto px-4 mt-8 md:max-w-xl"}>
                 <TodoCreate createTodo={createTodo} />
                 <TodoList todos={filterTodos()}
                           removeTodo={removeTodo}
                           updateTodo={updateTodo}/>
-                <TodoComputed computedLeft={computedItemsLeft}/>
+                <TodoComputed computedLeft={computedItemsLeft}
+                              clearCompleted={clearCompleted}/>
                 <TodoFilter changeFilter={changeFilter}/>
             </main>
-            <footer className={"text-center"}>
+            <footer className={"text-center pt-4 text-gray-600 dark:text-gray-300 grow transition-all duration-1000\""}>
                 Drag & drop to reorder list
             </footer>
         </div>

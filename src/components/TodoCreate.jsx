@@ -15,11 +15,11 @@ export const TodoCreate = ({createTodo}) => {
     }
 
     return (
-        <form className={"flex items-center gap-4 bg-white rounded-md overflow-hidden py-4 px-4"}
+        <form className={"flex items-center gap-4 bg-white rounded-md overflow-hidden py-4 px-4 dark:bg-gray-800 transition-all duration-1000"}
               onSubmit={handleSubmitAddTodo}
         >
             <span className={"rounded-full h-5 w-5 border-2 inline-block"}></span>
-            <input className={"w-full text-gray-400 outline-none"}
+            <input className={"w-full text-gray-400 outline-none dark:bg-gray-800 transition-all duration-1000"}
                    type="text"
                    placeholder={"Create a new todo"}
                    value={title}
